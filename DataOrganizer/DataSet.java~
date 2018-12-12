@@ -1,0 +1,121 @@
+import java.util.ArrayList;
+import java.util.*;
+import java.io.*;
+
+public class DataSet{
+	int rows;
+	int columns;
+	private String[] fieldNames;
+	private ArrayList<String[]> data;
+  
+  
+  public DataSet(String[] fieldNames, ArrayList<String[]> data){
+  	  this.fieldNames = fieldNames;
+  	  this.data = data;
+  	  this.rows = data.size();
+  	  this.columns = fieldNames.length;
+  	  for (int i = 0; i < (rows-1); i++){
+  	  	  if (data.get(i).length < columns){
+  	  	  	  data.remove(i);
+  	  	  }
+  	  }
+    
+  	  
+    //Debug code -- prints in the passed in column headers and first row of Data
+    //Comment out or remove this in your final code!
+    System.out.println(Arrays.toString(fieldNames));
+    System.out.println(Arrays.toString(data.get(0)));
+    
+  }
+  
+  //Gets the index of the field
+  public int getFieldIndex(String field){
+  	  for (int i = 0; i < fieldNames.length; i++){
+  	  	  if (fieldNames[i] == field){
+  	  	  	  return i;
+  	  	  }
+  	  }
+  	  return -1;
+  }
+  	  	  
+  	  
+  	  
+  	  
+  
+  public ArrayList<String[]> applyFilters(ArrayList<Filter> filters){
+    
+    //Prints the filters -- here for debugging, c
+    //Comment out or remove this in your final code!
+    for (int i = 0; i < filters.size(); i++){ //runs through each filter given
+    	Filter myFilter = filters.get(i); //creates a new filter
+    	
+    	Filter.FilterAction myAction = myFilter.getAction();
+    	Filter.FilterType myType = myFilter.getFilterType();
+    	String myValue = myFilter.getValue();
+    	String field = myFilter.getField();
+    	
+    	if (myAction == Filter.FilterAction.INCLUDE_IF){
+    		int fieldIndex = getFieldIndex(field);
+    		//System.out.println(fieldIndex);
+    		int numOfEntries = data.size();
+    		ArrayList<String[]> dataCopy = new ArrayList<String[]>(data);
+    		for (int x = 0; x < dataCopy.size(); x++){
+    			//System.out.println(numOfEntries);
+    			//System.out.println(data.get(x)[fieldIndex]);
+				if (myType == Filter.FilterType.STARTS_WITH){
+					if (!dataCopy.get(x)[fieldIndex].toUpperCase().startsWith(myValue)){
+						//System.out.println(myValue);
+						//System.out.println(data.get(x)[fieldIndex]);
+						//System.out.println(x);
+						//System.out.println("hello");
+						System.out.println(dataCopy.get(x)[fieldIndex]);
+						data.remove(dataCopy.get(x));
+						numOfEntries += 1;
+    		}
+    		}
+    			
+    		
+    		
+    		
+    		
+    		
+    		//if (field == "City"){
+    			//Collections.sort(data, new citySort());
+    		}
+    		
+    		
+    	}
+    	
+    	/* if (myAction == Filter.FilterAction.SORT_BY_DESCENDING){
+    		Collections.sort(data, Collections.reverseOrder());
+    	} */
+    		
+    		
+    		
+// City = 0, County = 1, State = 2, Zip code = 3    	
+    	
+      //System.out.println("Filter #" + (i+1) + ": " + filters.get(i));  
+    
+  
+  }
+  return null;
+  
+/*   class ascendingSort implements Comparator<data>{
+  	  public int compare(data a, data b){
+  	  	  return a.field - b.field;
+  	  }
+  }
+  
+  class descendingSort implements Comparator<data>{
+  	  public int compare(data a, data b){
+  	  	  return b.field - a.field;
+  	  }
+  } */
+  
+  //You should implement a nested Comparator class inside your DataSet
+  //ex: class DataSetComparator implements....
+  
+}
+}
+
+
